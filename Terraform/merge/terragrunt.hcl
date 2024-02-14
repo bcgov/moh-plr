@@ -7,9 +7,12 @@ generate "dev_tfvars" {
   if_exists         = "overwrite"
   disable_signature = true
   contents          = <<-EOF
-  fargate_cpu = 512
-  fargate_memory = 1024
-  app_port = 8181
+  web_cpu = 512
+  web_memory = 1024
+  esb_cpu = 512
+  esb_memory = 1024
+  web_port = 8181
+  esb_port = 8181
   fam_console_idp_name = "DEV-IDIR"
   alb_origin_id = "gisd.hlth.gov.bc.ca"
   application_url = "gisd.hlth.gov.bc.ca"

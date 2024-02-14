@@ -26,42 +26,6 @@ resource "aws_secretsmanager_secret" "gis_phsa_logout_uri" {
   name = "${var.application}_phsa_logout_uri"
 }
 
-resource "aws_secretsmanager_secret" "gis_aws_api_url" {
-  name = "${var.application}_aws_api_url"
-}
-
-resource "aws_secretsmanager_secret" "gis_create_immediate_scheduler" {
-  name = "${var.application}_create_immediate_scheduler"
-}
-
-resource "aws_secretsmanager_secret" "gis_email_subject" {
-  name = "${var.application}_email_subject"
-}
-
-resource "aws_secretsmanager_secret" "gis_fed_file_host" {
-  name = "${var.application}_fed_file_host"
-}
-
-resource "aws_secretsmanager_secret" "gis_fed_file_host_user_id" {
-  name = "${var.application}_fed_file_host_user_id"
-}
-
-resource "aws_secretsmanager_secret" "gis_hars_file_host" {
-  name = "${var.application}_hars_file_host"
-}
-
-resource "aws_secretsmanager_secret" "gis_hars_file_host_user_id" {
-  name = "${var.application}_hars_file_host_user_id"
-}
-
-resource "aws_secretsmanager_secret" "gis_schedule" {
-  name = "${var.application}_schedule"
-}
-
-resource "aws_secretsmanager_secret" "gis_batch_schedule" {
-  name = "${var.application}_batch_schedule"
-}
-
 resource "aws_secretsmanager_secret_version" "gis_jdbc_setting" {
   secret_id     = aws_secretsmanager_secret.gis_jdbc_setting.id
   secret_string = "changeme"
@@ -89,51 +53,6 @@ resource "aws_secretsmanager_secret_version" "gis_siteminder_logout_uri" {
 
 resource "aws_secretsmanager_secret_version" "gis_phsa_logout_uri" {
   secret_id     = aws_secretsmanager_secret.gis_phsa_logout_uri.id
-  secret_string = "changeme"
-}
-
-resource "aws_secretsmanager_secret_version" "gis_aws_api_url" {
-  secret_id     = aws_secretsmanager_secret.gis_aws_api_url.id
-  secret_string = "changeme"
-}
-
-resource "aws_secretsmanager_secret_version" "gis_create_immediate_scheduler" {
-  secret_id     = aws_secretsmanager_secret.gis_create_immediate_scheduler.id
-  secret_string = "changeme"
-}
-
-resource "aws_secretsmanager_secret_version" "gis_email_subject" {
-  secret_id     = aws_secretsmanager_secret.gis_email_subject.id
-  secret_string = "changeme"
-}
-
-resource "aws_secretsmanager_secret_version" "gis_fed_file_host" {
-  secret_id     = aws_secretsmanager_secret.gis_fed_file_host.id
-  secret_string = "changeme"
-}
-
-resource "aws_secretsmanager_secret_version" "gis_fed_file_host_user_id" {
-  secret_id     = aws_secretsmanager_secret.gis_fed_file_host_user_id.id
-  secret_string = "changeme"
-}
-
-resource "aws_secretsmanager_secret_version" "gis_hars_file_host" {
-  secret_id     = aws_secretsmanager_secret.gis_hars_file_host.id
-  secret_string = "changeme"
-}
-
-resource "aws_secretsmanager_secret_version" "gis_hars_file_host_user_id" {
-  secret_id     = aws_secretsmanager_secret.gis_hars_file_host_user_id.id
-  secret_string = "changeme"
-}
-
-resource "aws_secretsmanager_secret_version" "gis_schedule" {
-  secret_id     = aws_secretsmanager_secret.gis_schedule.id
-  secret_string = "changeme"
-}
-
-resource "aws_secretsmanager_secret_version" "gis_batch_schedule" {
-  secret_id     = aws_secretsmanager_secret.gis_batch_schedule.id
   secret_string = "changeme"
 }
 

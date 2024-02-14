@@ -16,7 +16,7 @@ generate "remote_state" {
 terraform {
   backend "s3" {
     bucket         = "terraform-remote-state-${local.project}-${local.environment}"
-    key            = "${local.project}/${local.environment}/gis-app.tfstate"
+    key            = "${local.project}/${local.environment}/plr-app.tfstate"
     dynamodb_table = "terraform-remote-state-lock-${local.project}"
     region         = "ca-central-1"
     encrypt        = true
@@ -32,7 +32,9 @@ generate "tfvars" {
   contents          = <<-EOF
     app_image  = "${local.app_image}"
     target_env = "${local.environment}"
-    application = "gis"
+    web_application = "plrweb"
+    esb_application = "plresb"
+    application = "plr"
 EOF
 }
 
@@ -45,8 +47,8 @@ provider "aws" {
   default_tags {
     tags = {
       "Created By"    = "Terraform"
-      "Project"       = "GIS"
-      "Service Owner" = "Midtier"
+      "Project"       = "PLR"
+      "Service Owner" = "Registries"
     }
   }
 }

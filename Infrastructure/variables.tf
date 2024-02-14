@@ -9,29 +9,39 @@ variable "aws_region" {
 
 variable "ecs_task_execution_role_name" {
   description = "ECS task execution role name"
-  default     = "GIS_EcsTaskExecutionRole"
+  default     = "PLR_EcsTaskExecutionRole"
 }
 
-variable "fargate_cpu" {
+variable "web_cpu" {
   description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
   default     = 512
 }
 
-variable "fargate_memory" {
+variable "web_memory" {
   description = "Fargate instance memory to provision (in MiB)"
   default     = 1024
 }
 
-variable "gis_cluster_name" {
-  description = "Name for the FAM database cluster -- must be unique"
-  default     = "gis-cluster"
+variable "esb_cpu" {
+  description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
+  default     = 512
+}
+
+variable "esb_memory" {
+  description = "Fargate instance memory to provision (in MiB)"
+  default     = 1024
+}
+
+variable "plr_db_name" {
+  description = "Name for the FAM database -- must be unique"
+  default     = "plrdb"
   type        = string
 }
 
 variable "common_tags" {
   description = "Common tags for created resources"
   default = {
-    Application = "gis"
+    Application = "PLR"
   }
 }
 
@@ -45,7 +55,12 @@ variable "alb_name" {
   type        = string
 }
 
-variable "app_port" {
+variable "web_port" {
+  description = "Port exposed by the docker image to redirect traffic to"
+  default     = 8181
+}
+
+variable "esb_port" {
   description = "Port exposed by the docker image to redirect traffic to"
   default     = 8181
 }
@@ -56,7 +71,12 @@ variable "app_image" {
   type        = string
 }
 
-variable "app_count" {
+variable "web_count" {
+  description = "Number of docker containers to run"
+  default     = 1
+}
+
+variable "esb_count" {
   description = "Number of docker containers to run"
   default     = 1
 }
@@ -66,8 +86,16 @@ variable "fam_console_idp_name" {
   type        = string
 }
 
+variable "web_application" {
+  description = "Web Application that is being deployed"
+}
+
+variable "esb_application" {
+  description = "ESB Application that is being deployed"
+}
+
 variable "application" {
-  description = "Application that is being deployed"
+  description = "Overall application that pulls together Web and ESB"
 }
 
 variable "alb_origin_id" {
@@ -87,16 +115,6 @@ variable "timezone" {
   description = "Default timezone to use for containers + database"
   default     = "America/Vancouver"
   type        = string
-}
-
-variable "aurora_acu_min" {
-  description = "Minimum Aurora Capacity Units (ACUs), from 0.5 to 128 in increments of 0.5"
-  default     = 0.5
-}
-
-variable "aurora_acu_max" {
-  description = "Maximum Aurora Capacity Units (ACUs), from 1 to 128 in increments of 0.5"
-  default     = 1
 }
 
 variable "timestamp" {

@@ -1,44 +1,44 @@
-resource "random_pet" "deathdate_subnet_group_name" {
-  prefix = "deathdate-subnet-group"
+resource "random_pet" "plr_subnet_group_name" {
+  prefix = "plr-subnet-group"
   length = 2
 }
 
 
-resource "random_password" "deathdate_master_password" {
+resource "random_password" "plr_master_password" {
   length           = 16
   special          = true
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
-variable "deathdate_master_username" {
+variable "plr_master_username" {
   description = "The username for the DB master user"
   type        = string
   default     = "postgres"
   sensitive   = true
 }
 
-variable "deathdate_database_name" {
+variable "plr_database_name" {
   description = "The name of the database"
   type        = string
-  default     = "deathdate"
+  default     = "plr"
 }
 
-resource "aws_db_subnet_group" "deathdate_subnet_group" {
-  description = "For Aurora cluster ${var.deathdate_cluster_name}"
-  name        = "${var.deathdate_cluster_name}-subnet-group"
+resource "aws_db_subnet_group" "plr_subnet_group" {
+  description = "For RDS ${var.plr_db_name}"
+  name        = "${var.plr_db_name}-subnet-group"
   subnet_ids  = data.aws_subnets.app.ids
   tags = {
-    managed-by = "terraform"
+    managed-by = "Terraform"
   }
 
   tags_all = {
-    managed-by = "terraform"
+    managed-by = "Terraform"
   }
 }
 
 module "postgres_rds" {
   source = "terraform-aws-modules/rds/aws"
-  identifier           = "${var.application}-${var.target_env}-audit"
+  identifier           = "${var.application}-${var.target_env}"
   major_engine_version = "13"
   family               = "postgres13"
   engine               = "postgres"
@@ -47,8 +47,8 @@ module "postgres_rds" {
   allocated_storage    = 5
 
   db_name  = "${var.application}audit"
-  username = var.deathdate_master_username
-  password = random_password.deathdate_master_password.result
+  username = var.plr_master_username
+  password = random_password.plr_master_password.result
   port     = "5432"
 
   vpc_security_group_ids = [data.aws_security_group.data.id]
@@ -75,30 +75,30 @@ module "postgres_rds" {
   #deletion_protection = true
 }
 
-resource "aws_db_parameter_group" "deathdate_postgresql13" {
-  name        = "${var.deathdate_cluster_name}-parameter-group"
+resource "aws_db_parameter_group" "plr_postgresql13" {
+  name        = "${var.plr_cluster_name}-parameter-group"
   family      = "postgres13"
-  description = "${var.deathdate_cluster_name}-parameter-group"
+  description = "${var.plr_cluster_name}-parameter-group"
   tags = {
     managed-by = "terraform"
   }
 }
 
-resource "aws_rds_cluster_parameter_group" "deathdate_postgresql13" {
-  name        = "${var.deathdate_cluster_name}-cluster-parameter-group"
+resource "aws_rds_cluster_parameter_group" "plr_postgresql13" {
+  name        = "${var.plr_cluster_name}-cluster-parameter-group"
   family      = "postgres13"
-  description = "${var.deathdate_cluster_name}-cluster-parameter-group"
+  description = "${var.plr_cluster_name}-cluster-parameter-group"
   tags = {
     managed-by = "terraform"
   }
 }
 
 resource "random_pet" "master_creds_secret_name" {
-  prefix = "deathdate-master-creds"
+  prefix = "plr-master-creds"
   length = 2
 }
 
-resource "aws_secretsmanager_secret" "deathdate_mastercreds_secret" {
+resource "aws_secretsmanager_secret" "plr_mastercreds_secret" {
   name = random_pet.master_creds_secret_name.id
 
   tags = {
@@ -106,12 +106,12 @@ resource "aws_secretsmanager_secret" "deathdate_mastercreds_secret" {
   }
 }
 
-resource "aws_secretsmanager_secret_version" "deathdate_mastercreds_secret_version" {
-  secret_id     = aws_secretsmanager_secret.deathdate_mastercreds_secret.id
+resource "aws_secretsmanager_secret_version" "plr_mastercreds_secret_version" {
+  secret_id     = aws_secretsmanager_secret.plr_mastercreds_secret.id
   secret_string = <<EOF
    {
-    "username": "${var.deathdate_master_username}",
-    "password": "${random_password.deathdate_master_password.result}"
+    "username": "${var.plr_master_username}",
+    "password": "${random_password.plr_master_password.result}"
    }
   EOF
   lifecycle {
@@ -119,13 +119,13 @@ resource "aws_secretsmanager_secret_version" "deathdate_mastercreds_secret_versi
   }
 }
 
-resource "random_password" "deathdate_api_password" {
+resource "random_password" "plr_api_password" {
   length           = 16
   special          = true
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
-variable "deathdate_api_username" {
+variable "plr_api_username" {
   description = "The username for the DB api user"
   type        = string
   default     = "fam_proxy_api"
@@ -134,11 +134,11 @@ variable "deathdate_api_username" {
 
 
 resource "random_pet" "api_creds_secret_name" {
-  prefix = "deathdate-api-creds"
+  prefix = "plr-api-creds"
   length = 2
 }
 
-resource "aws_secretsmanager_secret" "deathdate_apicreds_secret" {
+resource "aws_secretsmanager_secret" "plr_apicreds_secret" {
   name = random_pet.api_creds_secret_name.id
 
   tags = {
@@ -146,12 +146,12 @@ resource "aws_secretsmanager_secret" "deathdate_apicreds_secret" {
   }
 }
 
-resource "aws_secretsmanager_secret_version" "deathdate_apicreds_secret_version" {
-  secret_id     = aws_secretsmanager_secret.deathdate_apicreds_secret.id
+resource "aws_secretsmanager_secret_version" "plr_apicreds_secret_version" {
+  secret_id     = aws_secretsmanager_secret.plr_apicreds_secret.id
   secret_string = <<EOF
    {
-    "username": "${var.deathdate_api_username}",
-    "password": "${random_password.deathdate_api_password.result}"
+    "username": "${var.plr_api_username}",
+    "password": "${random_password.plr_api_password.result}"
    }
   EOF
   lifecycle {
