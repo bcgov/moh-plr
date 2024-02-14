@@ -1,13 +1,3 @@
-[![Lifecycle:Maturing](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](<Redirect-URL>)  
-This is a template for MoH repositories. All repositories should meet the following requirements
-* Check the total lines of change of pull request (PR); over the 200–400-line range (of change)
-* Check for one or more lifecycle badges
-* Check for a compliance file, and compliance status
-* Check for a license file
-* Check for ReadMe
-* Check for CONTRIBUTING file
-* Close issues that are stale
-* Close pull requests that are stale
-* Request for topic of ministry code
-* Request for words matter topic
-* It is highly recommended that all repositories contain a Contributors Code of Conduct file, which contains guidelines on how to collaborate on the repository
+The Provider and Location Registry (PLR) is a standards-based repository of core provider data supplied by authorized sources and available to authorized consumers that facilitates the formal exchange of health information. PLR also contains delivery site information for Community Care and Mental Health facilities. PLR is one of the fundamental building blocks toward realization of the pan-Canadian Electronic Health Record (EHR).
+
+PLR supports BC Health stakeholder needs for a comprehensive, trusted and reliable custodian and source of core health provider, location and facility information. As a central source for provider and location information, PLR assists BC Health organizations to achieve effort and cost efficiencies. Definition and development of comprehensive core and augmented data sets ensures all required provider and location data elements are available for stakeholder business use and consistent business processes and technology standards ensures stakeholders’ resources are maximized
