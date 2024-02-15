@@ -20,8 +20,8 @@ resource "aws_cloudwatch_metric_alarm" "ecs_cpu_utilization" {
   tags                = local.common_tags
 
   dimensions = {
-    ClusterName = aws_ecs_cluster.gis_cluster.name
-    ServiceName = aws_ecs_service.main.name
+    ClusterName = aws_ecs_cluster.plr_cluster.name
+    ServiceName = aws_ecs_service.plrweb.name
   }
 
   alarm_actions = [
@@ -42,8 +42,8 @@ resource "aws_cloudwatch_metric_alarm" "ecs_memory_utilization" {
   tags                = local.common_tags
 
   dimensions = {
-    ClusterName = aws_ecs_cluster.gis_cluster.name
-    ServiceName = aws_ecs_service.main.name
+    ClusterName = aws_ecs_cluster.plr_cluster.name
+    ServiceName = aws_ecs_service.plrweb.name
   }
 
   alarm_actions = [
@@ -63,8 +63,8 @@ resource "aws_cloudwatch_metric_alarm" "ecs_service_status" {
   tags                = local.common_tags
 
   dimensions = {
-    ClusterName = aws_ecs_cluster.gis_cluster.name
-    ServiceName = aws_ecs_service.main.name
+    ClusterName = aws_ecs_cluster.plr_cluster.name
+    ServiceName = aws_ecs_service.plrweb.name
   }
 
   alarm_description = "Alarm for Amazon ECS service status"
@@ -86,8 +86,8 @@ resource "aws_cloudwatch_metric_alarm" "ecs_network_traffic" {
   tags                = local.common_tags
 
   dimensions = {
-    ClusterName = aws_ecs_cluster.gis_cluster.name
-    ServiceName = aws_ecs_service.main.name
+    ClusterName = aws_ecs_cluster.plr_cluster.name
+    ServiceName = aws_ecs_service.plrweb.name
   }
 
   alarm_description = "Alarm for Amazon ECS Network Traffic"
@@ -109,8 +109,8 @@ resource "aws_cloudwatch_metric_alarm" "ecs_disk_usage" {
   tags                = local.common_tags
 
   dimensions = {
-    ClusterName = aws_ecs_cluster.gis_cluster.name
-    ServiceName = aws_ecs_service.main.name
+    ClusterName = aws_ecs_cluster.plr_cluster.name
+    ServiceName = aws_ecs_service.plrweb.name
   }
 
   alarm_description = "Alarm for Amazon ECS task filesystem utilization"
@@ -132,7 +132,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_task_failures" {
   tags                = local.common_tags
 
   dimensions = {
-    ClusterName = aws_ecs_cluster.gis_cluster.name
+    ClusterName = aws_ecs_cluster.plr_cluster.name
   }
 
   alarm_description = "Alarm for Amazon ECS task failures"
@@ -169,8 +169,8 @@ resource "aws_cloudwatch_metric_alarm" "ecs_cpu_util_anomaly" {
       period      = 60
       stat        = "Average"
       dimensions = {
-        ClusterName = aws_ecs_cluster.gis_cluster.name
-        ServiceName = aws_ecs_service.main.name
+        ClusterName = aws_ecs_cluster.plr_cluster.name
+        ServiceName = aws_ecs_service.plrweb.name
       }
     }
   }

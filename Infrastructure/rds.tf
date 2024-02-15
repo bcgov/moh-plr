@@ -11,19 +11,9 @@ resource "random_password" "plr_master_password" {
 
 # Postgres RDS if env is Postgres
 variable "plr_master_username" {
-  count = var.target_env == "postgres" ? 1 : 0
   description = "The username for the DB master user"
   type        = string
   default     = "postgres"
-  sensitive   = true
-}
-
-# Oracle RDS if env is not Postgres
-variable "plr_master_username" {
-  count = var.target_env != "postgres" ? 1 : 0
-  description = "The username for the DB master user"
-  type        = string
-  default     = "oracle"
   sensitive   = true
 }
 
@@ -48,8 +38,8 @@ resource "aws_db_subnet_group" "plr_subnet_group" {
 
 # Postgres RDS if env is Postgres
 module "postgres_rds" {
-  count = var.target_env == "postgres" ? 1 : 0
-  source = "terraform-aws-modules/rds/aws"
+  count                = var.target_env == "postgres" ? 1 : 0
+  source               = "terraform-aws-modules/rds/aws"
   identifier           = "${var.application}-${var.target_env}"
   major_engine_version = "13"
   family               = "postgres13"
@@ -58,7 +48,7 @@ module "postgres_rds" {
   instance_class       = "db.t3.micro"
   allocated_storage    = 5
 
-  db_name  = "${var.application}"
+  db_name  = var.application
   username = var.plr_master_username
   password = random_password.plr_master_password.result
   port     = "5432"
@@ -89,15 +79,15 @@ module "postgres_rds" {
 
 # Oracle RDS if env is not Postgres
 module "oracle_rds" {
-  count = var.target_env != "postgres" ? 1 : 0
-  source = "../../"
+  count  = var.target_env != "postgres" ? 1 : 0
+  source = "terraform-aws-modules/rds/aws"
 
   identifier = "${var.application}-${var.target_env}"
 
   engine               = "oracle-se2"
   engine_version       = "19"
   family               = "oracle-se2-19" # DB parameter group
-  major_engine_version = "19"           # DB option group
+  major_engine_version = "19"            # DB option group
   instance_class       = "db.t3.large"
   license_model        = "license-included"
 
@@ -110,14 +100,14 @@ module "oracle_rds" {
   username = "oracle"
   port     = 1521
 
-  multi_az               = false
+  multi_az = false
   #db_subnet_group_name   = module.vpc.database_subnet_group
   create_db_subnet_group = true
   subnet_ids             = data.aws_subnets.data.ids
   vpc_security_group_ids = [data.aws_security_group.data.id]
 
-  maintenance_window              = "Mon:00:00-Mon:03:00"
-  backup_window                   = "03:00-06:00"
+  maintenance_window = "Mon:00:00-Mon:03:00"
+  backup_window      = "03:00-06:00"
   #enabled_cloudwatch_logs_exports = ["alert", "audit"]
   #create_cloudwatch_log_group     = false
 
@@ -139,7 +129,7 @@ module "oracle_rds" {
 }
 
 resource "aws_db_parameter_group" "plr_postgresql13" {
-  count = var.target_env == "postgres" ? 1 : 0
+  count       = var.target_env == "postgres" ? 1 : 0
   name        = "${var.plr_cluster_name}-parameter-group"
   family      = "postgres13"
   description = "${var.plr_cluster_name}-parameter-group"
@@ -149,7 +139,7 @@ resource "aws_db_parameter_group" "plr_postgresql13" {
 }
 
 resource "aws_rds_cluster_parameter_group" "plr_postgresql13" {
-  count = var.target_env == "postgres" ? 1 : 0
+  count       = var.target_env == "postgres" ? 1 : 0
   name        = "${var.plr_cluster_name}-cluster-parameter-group"
   family      = "postgres13"
   description = "${var.plr_cluster_name}-cluster-parameter-group"

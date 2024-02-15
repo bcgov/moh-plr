@@ -1,10 +1,14 @@
 locals {
   env_map = {
-    dev     = "Dev"
-    test    = "Test"
-    prod    = "Prod"
-    sandbox = "Sandbox"
-    unclass = "UnClass"
+    dev      = "Dev"
+    merge    = "Dev"
+    postgres = "Dev"
+    test     = "Test"
+    conf     = "Test"
+    rev      = "Test"
+    prod     = "Prod"
+    sandbox  = "Sandbox"
+    unclass  = "UnClass"
   }
   environment        = local.env_map[lower(var.target_env)]
   vpc_name           = "${local.environment}_vpc"

@@ -32,6 +32,12 @@ variable "esb_memory" {
   default     = 1024
 }
 
+variable "plr_cluster_name" {
+  description = "Fargate cluster name"
+  default     = "plr-cluster"
+  type        = string
+}
+
 variable "plr_db_name" {
   description = "Name for the FAM database -- must be unique"
   default     = "plrdb"
@@ -108,7 +114,7 @@ variable "application_url" {
 
 variable "db_instance_identifier" {
   description = "Identifies the cluster ID of aurora_rds_v2"
-  default     = "gis-cluster"
+  default     = "plr-cluster"
 }
 
 variable "timezone" {

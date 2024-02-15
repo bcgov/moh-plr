@@ -12,9 +12,37 @@ data "aws_alb_listener" "front_end" {
   port              = 443
 }
 
-resource "aws_alb_target_group" "app" {
-  name                 = "${var.application}-${var.target_env}-target-group"
-  port                 = var.app_port
+resource "aws_alb_target_group" "web" {
+  name                 = "${var.web_application}-${var.target_env}-target-group"
+  port                 = var.web_port
+  protocol             = "HTTPS"
+  vpc_id               = data.aws_vpc.main.id
+  target_type          = "ip"
+  deregistration_delay = 30
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes        = [name]
+  }
+  stickiness {
+    type = "lb_cookie"
+  }
+
+  health_check {
+    healthy_threshold   = "2"
+    interval            = "150"
+    protocol            = "HTTPS"
+    matcher             = "200,302"
+    timeout             = "120"
+    path                = var.health_check_path
+    unhealthy_threshold = "10"
+  }
+
+  tags = local.common_tags
+}
+
+resource "aws_alb_target_group" "esb" {
+  name                 = "${var.esb_application}-${var.target_env}-target-group"
+  port                 = var.esb_port
   protocol             = "HTTPS"
   vpc_id               = data.aws_vpc.main.id
   target_type          = "ip"
@@ -47,7 +75,7 @@ resource "aws_lb_listener_rule" "host_based_weighted_routing" {
   }
   action {
     type             = "forward"
-    target_group_arn = aws_alb_target_group.app.arn
+    target_group_arn = aws_alb_target_group.web.arn
   }
   condition {
     host_header {

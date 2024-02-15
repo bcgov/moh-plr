@@ -1,8 +1,8 @@
-resource "aws_secretsmanager_secret" "gis_jdbc_setting" {
-  name = "${var.application}_jdbc_setting"
+resource "aws_secretsmanager_secret" "plr_pg_url" {
+  name = "${var.application}_pg_url"
 }
 
-resource "aws_secretsmanager_secret" "gis_proxy_user" {
+resource "aws_secretsmanager_secret" "plr_pg_user" {
   name = "${var.application}_user"
 }
 
@@ -24,11 +24,6 @@ resource "aws_secretsmanager_secret" "gis_siteminder_logout_uri" {
 
 resource "aws_secretsmanager_secret" "gis_phsa_logout_uri" {
   name = "${var.application}_phsa_logout_uri"
-}
-
-resource "aws_secretsmanager_secret_version" "gis_jdbc_setting" {
-  secret_id     = aws_secretsmanager_secret.gis_jdbc_setting.id
-  secret_string = "changeme"
 }
 
 resource "aws_secretsmanager_secret_version" "gis_keycloak_client_secret" {
@@ -57,18 +52,20 @@ resource "aws_secretsmanager_secret_version" "gis_phsa_logout_uri" {
 }
 
 resource "aws_secretsmanager_secret_version" "rds_credentials" {
-  secret_id     = aws_secretsmanager_secret.gis_proxy_user.id
+  secret_id     = aws_secretsmanager_secret.plr_pg_user.id
   secret_string = <<EOF
 {
-  "username": "gis_proxy_user",
-  "password": "changeme",
-  "engine": "${data.aws_rds_engine_version.postgresql.version}",
-  "host": "${module.aurora_postgresql_v2.cluster_endpoint}",
-  "port": ${module.aurora_postgresql_v2.cluster_port},
-  "dbClusterIdentifier": "${module.aurora_postgresql_v2.cluster_id}"
+  "username": "plrmerge",
+  "password": "changeme"
 }
 EOF
   lifecycle {
     ignore_changes = [secret_string]
   }
 }
+
+resource "aws_secretsmanager_secret_version" "plr_pg_url" {
+  secret_id     = aws_secretsmanager_secret.plr_pg_url.id
+  secret_string = "changeme"
+}
+

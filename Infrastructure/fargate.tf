@@ -19,8 +19,8 @@ resource "aws_ecs_task_definition" "plresb_td" {
   task_role_arn            = aws_iam_role.ecs_task_execution_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.fargate_cpu
-  memory                   = var.fargate_memory
+  cpu                      = var.esb_cpu
+  memory                   = var.esb_memory
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
@@ -28,8 +28,8 @@ resource "aws_ecs_task_definition" "plresb_td" {
       name      = "${var.esb_application}-${var.target_env}-definition"
       #change to variable to env. for GH Actions
       image       = "${data.aws_caller_identity.current.account_id}.dkr.ecr.ca-central-1.amazonaws.com/plresb:latest"
-      cpu         = var.fargate_cpu
-      memory      = var.fargate_memory
+      cpu         = var.esb_cpu
+      memory      = var.esb_memory
       networkMode = "awsvpc"
       portMappings = [
         {
@@ -41,10 +41,6 @@ resource "aws_ecs_task_definition" "plresb_td" {
       secrets = [
         { name = "PG_USER",
         valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:username::" },
-        { name = "PG_PASSWORD",
-        valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:password::" },
-        { name = "JDBC_SETTING",
-        valueFrom = aws_secretsmanager_secret_version.gis_jdbc_setting.arn },
         { name = "KEYCLOAK_CLIENT_SECRET",
         valueFrom = aws_secretsmanager_secret_version.gis_keycloak_client_secret.arn },
         { name = "PROVIDER_URI",
@@ -84,17 +80,17 @@ resource "aws_ecs_task_definition" "plrweb_td" {
   task_role_arn            = aws_iam_role.ecs_task_execution_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.fargate_cpu
-  memory                   = var.fargate_memory
+  cpu                      = var.web_cpu
+  memory                   = var.web_memory
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
       essential = true
       name      = "${var.web_application}-${var.target_env}-definition"
       #change to variable to env. for GH Actions
-      image       = "${data.aws_caller_identity.current.account_id}.dkr.ecr.ca-central-1.amazonaws.com/gis:latest"
-      cpu         = var.fargate_cpu
-      memory      = var.fargate_memory
+      image       = "${data.aws_caller_identity.current.account_id}.dkr.ecr.ca-central-1.amazonaws.com/plrweb:latest"
+      cpu         = var.web_cpu
+      memory      = var.web_memory
       networkMode = "awsvpc"
       portMappings = [
         {
@@ -106,10 +102,6 @@ resource "aws_ecs_task_definition" "plrweb_td" {
       secrets = [
         { name = "PG_USER",
         valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:username::" },
-        { name = "PG_PASSWORD",
-        valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:password::" },
-        { name = "JDBC_SETTING",
-        valueFrom = aws_secretsmanager_secret_version.gis_jdbc_setting.arn },
         { name = "KEYCLOAK_CLIENT_SECRET",
         valueFrom = aws_secretsmanager_secret_version.gis_keycloak_client_secret.arn },
         { name = "PROVIDER_URI",
@@ -143,7 +135,7 @@ resource "aws_ecs_task_definition" "plrweb_td" {
   ])
 }
 
-resource "aws_ecs_service" "main" {
+resource "aws_ecs_service" "plrweb" {
   name                              = "${var.web_application}-${var.target_env}-service"
   cluster                           = aws_ecs_cluster.plr_cluster.arn
   task_definition                   = aws_ecs_task_definition.plrweb_td.arn
@@ -163,7 +155,7 @@ resource "aws_ecs_service" "main" {
   }
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.app.id
+    target_group_arn = aws_alb_target_group.web.id
     container_name   = "${var.web_application}-${var.target_env}-definition"
     container_port   = var.web_port
   }
@@ -176,7 +168,7 @@ resource "aws_ecs_service" "main" {
 
 }
 
-resource "aws_ecs_service" "main" {
+resource "aws_ecs_service" "plresb" {
   name                              = "${var.esb_application}-${var.target_env}-service"
   cluster                           = aws_ecs_cluster.plr_cluster.arn
   task_definition                   = aws_ecs_task_definition.plresb_td.arn
@@ -196,7 +188,7 @@ resource "aws_ecs_service" "main" {
   }
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.app.id
+    target_group_arn = aws_alb_target_group.esb.id
     container_name   = "${var.esb_application}-${var.target_env}-definition"
     container_port   = var.esb_port
   }
