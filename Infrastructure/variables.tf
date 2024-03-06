@@ -104,12 +104,12 @@ variable "application" {
   description = "Overall application that pulls together Web and ESB"
 }
 
-variable "alb_origin_id" {
-  description = "Domain name of OCIO Perimeter loadbalancer"
+variable "esb_url" {
+  description = "Domain name of the PLR ESB application"
 }
 
-variable "application_url" {
-  description = "Domain name of the live and cutover application"
+variable "web_url" {
+  description = "Domain name of the PLR web application"
 }
 
 variable "db_instance_identifier" {

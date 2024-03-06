@@ -42,15 +42,15 @@ resource "aws_ecs_task_definition" "plresb_td" {
         { name = "PG_USER",
         valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:username::" },
         { name = "KEYCLOAK_CLIENT_SECRET",
-        valueFrom = aws_secretsmanager_secret_version.gis_keycloak_client_secret.arn },
+        valueFrom = aws_secretsmanager_secret_version.plresb_keycloak_client_secret.arn },
         { name = "PROVIDER_URI",
-        valueFrom = aws_secretsmanager_secret_version.gis_provider_uri.arn },
+        valueFrom = aws_secretsmanager_secret_version.plresb_provider_uri.arn },
         { name = "REDIRECT_URI",
-        valueFrom = aws_secretsmanager_secret_version.gis_redirect_uri.arn },
+        valueFrom = aws_secretsmanager_secret_version.plresb_redirect_uri.arn },
         { name = "SITEMINDER_LOGOUT_URI",
-        valueFrom = aws_secretsmanager_secret_version.gis_siteminder_logout_uri.arn },
+        valueFrom = aws_secretsmanager_secret_version.plresb_siteminder_logout_uri.arn },
         { name = "PHSA_LOGOUT_URI",
-        valueFrom = aws_secretsmanager_secret_version.gis_phsa_logout_uri.arn }
+        valueFrom = aws_secretsmanager_secret_version.plresb_phsa_logout_uri.arn }
       ]
       environment = [
         { name = "JVM_XMX",
@@ -103,15 +103,15 @@ resource "aws_ecs_task_definition" "plrweb_td" {
         { name = "PG_USER",
         valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:username::" },
         { name = "KEYCLOAK_CLIENT_SECRET",
-        valueFrom = aws_secretsmanager_secret_version.gis_keycloak_client_secret.arn },
+        valueFrom = aws_secretsmanager_secret_version.plrweb_keycloak_client_secret.arn },
         { name = "PROVIDER_URI",
-        valueFrom = aws_secretsmanager_secret_version.gis_provider_uri.arn },
+        valueFrom = aws_secretsmanager_secret_version.plrweb_provider_uri.arn },
         { name = "REDIRECT_URI",
-        valueFrom = aws_secretsmanager_secret_version.gis_redirect_uri.arn },
+        valueFrom = aws_secretsmanager_secret_version.plrweb_redirect_uri.arn },
         { name = "SITEMINDER_LOGOUT_URI",
-        valueFrom = aws_secretsmanager_secret_version.gis_siteminder_logout_uri.arn },
+        valueFrom = aws_secretsmanager_secret_version.plrweb_siteminder_logout_uri.arn },
         { name = "PHSA_LOGOUT_URI",
-        valueFrom = aws_secretsmanager_secret_version.gis_phsa_logout_uri.arn }
+        valueFrom = aws_secretsmanager_secret_version.plrweb_phsa_logout_uri.arn }
       ]
       environment = [
         { name = "JVM_XMX",

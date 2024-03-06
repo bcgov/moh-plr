@@ -19,7 +19,7 @@ terraform {
     key            = "${local.project}/${local.environment}/plr-app.tfstate"
     dynamodb_table = "terraform-remote-state-lock-${local.project}"
     region         = "ca-central-1"
-    encrypt        = true
+    encrypt        = true 
   }
 }
 EOF

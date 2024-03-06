@@ -68,7 +68,23 @@ resource "aws_alb_target_group" "esb" {
   tags = local.common_tags
 }
 
-resource "aws_lb_listener_rule" "host_based_weighted_routing" {
+resource "aws_lb_listener_rule" "plresb_host_based_weighted_routing" {
+  listener_arn = data.aws_alb_listener.front_end.arn
+  lifecycle {
+    create_before_destroy = true
+  }
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.esb.arn
+  }
+  condition {
+    host_header {
+      values = [var.esb_url]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "plrweb_host_based_weighted_routing" {
   listener_arn = data.aws_alb_listener.front_end.arn
   lifecycle {
     create_before_destroy = true
@@ -79,7 +95,7 @@ resource "aws_lb_listener_rule" "host_based_weighted_routing" {
   }
   condition {
     host_header {
-      values = [var.alb_origin_id]
+      values = [var.web_url]
     }
   }
 }
