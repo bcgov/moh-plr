@@ -7,43 +7,43 @@ resource "aws_secretsmanager_secret" "plr_pg_user" {
 }
 
 resource "aws_secretsmanager_secret" "plrweb_keycloak_client_secret" {
-  name = "${var.application}_keycloak_client_secret"
+  name = "${var.web_application }_keycloak_client_secret"
 }
 
 resource "aws_secretsmanager_secret" "plrweb_provider_uri" {
-  name = "${var.application}_provider_uri"
+  name = "${var.web_application }_provider_uri"
 }
 
 resource "aws_secretsmanager_secret" "plrweb_redirect_uri" {
-  name = "${var.application}_redirect_uri"
+  name = "${var.web_application }_redirect_uri"
 }
 
 resource "aws_secretsmanager_secret" "plrweb_siteminder_logout_uri" {
-  name = "${var.application}_siteminder_logout_uri"
+  name = "${var.web_application }_siteminder_logout_uri"
 }
 
 resource "aws_secretsmanager_secret" "plrweb_phsa_logout_uri" {
-  name = "${var.application}_phsa_logout_uri"
+  name = "${var.web_application }_phsa_logout_uri"
 }
 
 resource "aws_secretsmanager_secret" "plresb_keycloak_client_secret" {
-  name = "${var.application}_keycloak_client_secret"
+  name = "${var.esb_application }_keycloak_client_secret"
 }
 
 resource "aws_secretsmanager_secret" "plresb_provider_uri" {
-  name = "${var.application}_provider_uri"
+  name = "${var.esb_application }_provider_uri"
 }
 
 resource "aws_secretsmanager_secret" "plresb_redirect_uri" {
-  name = "${var.application}_redirect_uri"
+  name = "${var.esb_application }_redirect_uri"
 }
 
 resource "aws_secretsmanager_secret" "plresb_siteminder_logout_uri" {
-  name = "${var.application}_siteminder_logout_uri"
+  name = "${var.esb_application }_siteminder_logout_uri"
 }
 
 resource "aws_secretsmanager_secret" "plresb_phsa_logout_uri" {
-  name = "${var.application}_phsa_logout_uri"
+  name = "${var.esb_application }_phsa_logout_uri"
 }
 
 
