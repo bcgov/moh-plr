@@ -1,5 +1,5 @@
 resource "aws_sns_topic" "plr_alerts" {
-  name = "cloudwatch_alarms"
+  name = "plr_cloudwatch_alarms"
 }
 
 
