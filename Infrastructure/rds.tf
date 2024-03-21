@@ -119,9 +119,9 @@ module "oracle_rds" {
   #performance_insights_retention_period = 7
   #create_monitoring_role                = true
 
-  monitoring_interval    = "30"
-  monitoring_role_name   = "MyRDSMonitoringRole"
-  create_monitoring_role = false
+  #monitoring_interval    = "30"
+  #monitoring_role_name   = "MyRDSMonitoringRole"
+  #create_monitoring_role = false
 
   # See here for support character sets https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.OracleCharacterSets.html
   character_set_name       = "AL32UTF8"
