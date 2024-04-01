@@ -104,6 +104,8 @@ resource "aws_ecs_task_definition" "plrweb_td" {
         valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:username::" },
         { name = "DB_PASS",
         valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:password::" },
+        { name = "DB_URL",
+        valueFrom = "aws_secretsmanager_secret_version.plr_pg_url.arn },
         { name = "PLR_KEYCLOAK_CLIENT_SECRET",
         valueFrom = aws_secretsmanager_secret_version.plrweb_keycloak_client_secret.arn },
         { name = "CLIENT_ID",
