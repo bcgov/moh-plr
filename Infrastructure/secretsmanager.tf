@@ -6,8 +6,16 @@ resource "aws_secretsmanager_secret" "plr_pg_user" {
   name = "${var.application}_user"
 }
 
+resource "aws_secretsmanager_secret" "plrweb_db_name" {
+  name = "${var.web_application}_db_name"
+}
+
 resource "aws_secretsmanager_secret" "plrweb_keycloak_client_secret" {
   name = "${var.web_application }_keycloak_client_secret"
+}
+
+resource "aws_secretsmanager_secret" "plrweb_keycloak_client_id" {
+  name = "${var.web_application }_keycloak_client_id"
 }
 
 resource "aws_secretsmanager_secret" "plrweb_provider_uri" {
@@ -150,6 +158,16 @@ resource "aws_secretsmanager_secret_version" "plresb_filedrop_location" {
 
 resource "aws_secretsmanager_secret_version" "plrweb_keycloak_client_secret" {
   secret_id     = aws_secretsmanager_secret.plrweb_keycloak_client_secret.id
+  secret_string = "changeme"
+}
+
+resource "aws_secretsmanager_secret_version" "plrweb_keycloak_db_name" {
+  secret_id     = aws_secretsmanager_secret.plrweb_keycloak_db_name.id
+  secret_string = "changeme"
+}
+
+resource "aws_secretsmanager_secret_version" "plrweb_keycloak_client_id" {
+  secret_id     = aws_secretsmanager_secret.plrweb_keycloak_client_id.id
   secret_string = "changeme"
 }
 
