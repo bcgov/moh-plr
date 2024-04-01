@@ -161,8 +161,8 @@ resource "aws_secretsmanager_secret_version" "plrweb_keycloak_client_secret" {
   secret_string = "changeme"
 }
 
-resource "aws_secretsmanager_secret_version" "plrweb_keycloak_db_name" {
-  secret_id     = aws_secretsmanager_secret.plrweb_keycloak_db_name.id
+resource "aws_secretsmanager_secret_version" "plrweb_db_name" {
+  secret_id     = aws_secretsmanager_secret.plrweb_db_name.id
   secret_string = "changeme"
 }
 
@@ -213,6 +213,11 @@ resource "aws_secretsmanager_secret_version" "plrweb_esb_address_validation_serv
 
 resource "aws_secretsmanager_secret_version" "plrweb_esb_keystore_password" {
   secret_id     = aws_secretsmanager_secret.plrweb_esb_keystore_password.id
+  secret_string = "changeme"
+}
+
+resource "aws_secretsmanager_secret_version" "plrweb_esb_key_password" {
+  secret_id     = aws_secretsmanager_secret.plrweb_esb_key_password.id
   secret_string = "changeme"
 }
 
